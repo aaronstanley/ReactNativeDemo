@@ -34,7 +34,24 @@ export default class InvoDay extends Component {
     	<Navigator style={{flex: 1}}
     	renderScene={this._renderScene.bind(this)}
         initialRoute={{component: rootPage}}  
-  		/>
+  		
+  		
+  		navigationBar={
+     		<Navigator.NavigationBar
+       		routeMapper={{
+         		LeftButton: (route, navigator, index, navState) =>
+          		{ return null; },
+         			RightButton: (route, navigator, index, navState) =>
+           		{ return null; },
+         			Title: (route, navigator, index, navState) =>
+           		{ return (<View style={{
+                            justifyContent: 'center',
+                            flex: 1
+                        }}><Text>Home Page</Text></View>); },
+       			}}
+       			style={styles.nav_bar}
+     		/>
+  		}/>
     );
     }
  }

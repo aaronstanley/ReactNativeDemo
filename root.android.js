@@ -26,8 +26,6 @@ var rootPage = React.createClass({
 
 		getInitialState: function() {
 		return {
-    		lat: 'unknown',
-    		lng: 'unknown',
     		city: 'unknown',
     		show:false
     		}
