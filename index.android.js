@@ -4,7 +4,6 @@
  * @flow
  */
  'use strict';
-import autobind from 'autobind-decorator'
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -14,104 +13,39 @@ import {
   TouchableHighlight,
   TouchableNativeFeedback,
   Dimensions,
-  GeoLocation
+  GeoLocation,
+  Navigator
 } from 'react-native';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 var location;
 
+var rootPage = require('./root.android')
 
 export default class InvoDay extends Component {
 
-state = {
-    lat: 'unknown',
-    lng: 'unknown',
-    city: 'unknown',
-    show : false
-  };
+  _renderScene (route, navigator) {
+    return <route.component navigator={navigator} />
+  }
   
-
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Hello, Welcome to my demo for react native on Android,
-        </Text>
-    
-        <TouchableNativeFeedback
-        	onPress={this._click.bind(this)}
-        	background={TouchableNativeFeedback.SelectableBackground()}>
-      		<View style={styles.button}>
-        		<Text style={styles.button_text}>So, where are you? click here to find out.</Text>
-      		</View>
-    	</TouchableNativeFeedback>
-    	
-    	{this._renderLocation()}   
-    	
-    </View>
+    	<Navigator style={{flex: 1}}
+    	renderScene={this._renderScene.bind(this)}
+        initialRoute={{component: rootPage}}  
+  		/>
     );
     }
-    
-    
-    _renderLocation() {
-        if (this.state.show) {
-            return (
-            <View style={styles.container1}>
-        		<Text style={styles.instructions}>
-          			<Text style={styles.title}>Ah, your in {this.state.city}, What would you like to know?</Text>
-        		</Text>
-        		<TouchableNativeFeedback
-        			onPress={this._click.bind(this)}
-        			background={TouchableNativeFeedback.SelectableBackground()}>
-      				<View style={styles.button}>
-        				<Text style={styles.button_text}>Five Day Weather</Text>
-      				</View>
-    			</TouchableNativeFeedback>
-    			</View>
-            );
-        } else {
-            return null;
-        }
-    }
-    
-    _click() {
-		console.log("Clicked");
-		navigator.geolocation.getCurrentPosition(
-      		(position) => {
-        		var lat = position.coords.latitude;
-        		var lng = position.coords.longitude;
-        		console.log(position);
-        		this.setState({lat,lng});
-        		
-        		var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' +lat+','+lng+'&language=en&key=AIzaSyBDEkbnMa5p8AEKFlL4XXMIFo5JAqzsG-Q'
-        		
-        		fetch(url)
-        		.then((response) => response.json())
-        		.then((responseJson) => {
-        			var address_components = responseJson.results[0].address_components;
-        			for (var i = 0; i < address_components.length; i++) {
-        				if(address_components[i].types[0] == 'locality') {
-        					var city = address_components[i].long_name;
-        					var show = true;
-        					this.setState({city,show});
-						}
-					}
-      			});
-        		
-      		},
-      		(error) => alert(JSON.stringify(error)),
-    	);
-	}
-}
+ }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    marginTop:54
   },
-  
   container1: {
     flex: 1,
     justifyContent: 'center',
@@ -137,6 +71,10 @@ const styles = StyleSheet.create({
   button_text: {
   	textAlign: 'center',
   	marginTop: 10
+  },
+  nav_bar: {
+  	alignItems: 'center',
+  	backgroundColor: 'gray',
   }
 });
 
