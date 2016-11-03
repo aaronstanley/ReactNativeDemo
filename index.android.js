@@ -33,8 +33,7 @@ export default class InvoDay extends Component {
     return (
     	<Navigator style={{flex: 1}}
     	renderScene={this._renderScene.bind(this)}
-        initialRoute={{component: rootPage}}  
-  		
+        initialRoute={{component: rootPage, title:'Home Page'}}  
   		
   		navigationBar={
      		<Navigator.NavigationBar
@@ -47,7 +46,7 @@ export default class InvoDay extends Component {
            		{ return (<View style={{
                             justifyContent: 'center',
                             flex: 1
-                        }}><Text>Home Page</Text></View>); },
+                        }}><Text>{route.title}</Text></View>); },
        			}}
        			style={styles.nav_bar}
      		/>

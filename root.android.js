@@ -21,6 +21,7 @@ var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 var location;
 
+var forcastPage = require('./forcast.android')
 
 var rootPage = React.createClass({
 
@@ -34,8 +35,7 @@ var rootPage = React.createClass({
         goDerper: function() {
             this.props.navigator.push({
                 title: 'nextPage',
-                component: NextPage,
-                navigationBarHidden: true,
+                component: forcastPage,
                 passProps: {myElement: 'text'}
             });
         },
@@ -48,6 +48,7 @@ var rootPage = React.createClass({
           			<Text style={styles.title}>Ah, your in {this.state.city}, What would you like to know?</Text>
         		</Text>
         		<TouchableNativeFeedback
+        			onPress={this.goDerper}
         			background={TouchableNativeFeedback.SelectableBackground()}>
       				<View style={styles.button}>
         				<Text style={styles.button_text}>Five Day Weather</Text>
