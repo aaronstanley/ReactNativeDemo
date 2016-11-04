@@ -65,7 +65,7 @@ var rootPage = React.createClass({
         			onPress={this.goDerper}
         			background={TouchableNativeFeedback.SelectableBackground()}>
       				<View style={styles.button}>
-        				<Text style={styles.button_text}>Five Day Weather</Text>
+        				<Text style={styles.button_text}>16 Day Weather forcast</Text>
       				</View>
     			</TouchableNativeFeedback>
     			</View>
