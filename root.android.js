@@ -27,17 +27,31 @@ var rootPage = React.createClass({
 
 		getInitialState: function() {
 		return {
+			lat: 0,
+			lng: 0,
     		city: 'unknown',
     		show:false
     		}
   		},
 
         goDerper: function() {
-            this.props.navigator.push({
-                title: 'nextPage',
+        var url = 'http://api.openweathermap.org/data/2.5/forecast/daily?cnt=16&lat='+this.state.lat+'&lon='+this.state.lng+'&mode=json&appid=59514d8205cb913921f826dc452f8165'
+   		console.log(url);
+    	fetch(url)
+    	.then((response) => response.json())
+    	.then((responseJson) => {
+        	console.log(responseJson.list);
+        	var dataSource = responseJson.list;
+        	this.setState({dataSource})
+        
+          	this.props.navigator.push({
+                title: '16 Day forcast',
                 component: forcastPage,
-                passProps: {myElement: 'text'}
+                renderScene:forcastPage._renderScene,
+				passProps: {data: responseJson.list}
             });
+    	});
+           
         },
         
         _renderLocation() {

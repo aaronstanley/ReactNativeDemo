@@ -9,8 +9,10 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
+  Image,
   View,
   TouchableHighlight,
+  TouchableOpacity,
   TouchableNativeFeedback,
   Dimensions,
   GeoLocation,
@@ -26,8 +28,14 @@ var rootPage = require('./root.android')
 export default class InvoDay extends Component {
 
   _renderScene (route, navigator) {
-    return <route.component navigator={navigator} />
+    return <route.component {...route.passProps} navigator={navigator} />
   }
+  
+  _pop (route, navigator) {
+  	console.log('_pop');
+    navigator.pop
+  }
+
   
   render() {
     return (
@@ -35,11 +43,27 @@ export default class InvoDay extends Component {
     	renderScene={this._renderScene.bind(this)}
         initialRoute={{component: rootPage, title:'Home Page'}}  
   		
+  		
   		navigationBar={
      		<Navigator.NavigationBar
        		routeMapper={{
          		LeftButton: (route, navigator, index, navState) =>
-          		{ return null; },
+          		{ return (
+          		<View
+          			style={{
+                    	justifyContent: 'center',
+                        flex: 1
+                    }}>
+                        
+                    <TouchableOpacity
+        			onPress={navigator.pop}>
+                    	<Image
+          					style={{width: 50, height: 50}}
+          					source={require('./images/back.png')}
+        					/>
+        				</TouchableOpacity>
+        		</View>); },
+        		
          			RightButton: (route, navigator, index, navState) =>
            		{ return null; },
          			Title: (route, navigator, index, navState) =>
